@@ -1,0 +1,39 @@
+<?php
+// json__commands__v6
+
+
+// Check if variable is empty; if so, it means that it's cycled through the function branches iterated in a base(36) json function tree listing and completed it's processes.
+if(!empty($commands__json->$current_index))
+{
+	// Sets directory of functions
+	if($v->command	===	'wall')
+	{
+		$directory												=	'';
+	}
+	else
+	{
+		$directory												=			'functions/';		
+	}
+	
+	
+	
+	$function													=			$commands__json->$current_index;		// Decode from Json format into a php array, so if $commands_json->$current_index = [0123abcd], then it'll point to the "get_header.php" function
+	
+	require_once($GLOBALS['c2__version'].$directory.$function.'.php');
+	
+	$v																=			$function($v, $user);										// This is a "function_name(parameters)" so example: $function(add__user($v, $user))   or   get(user($v, $user);
+	$current_index										=			$current_index.$V->Next_Index;				// $v = an object that holds all the variables as it cycles through all the functions in the function tree;
+	$_SESSION['current_index']					=			$current_index;												// $user is the current user's user object, so will be used for all permissions, directories, themes, etc;
+	
+	///////////////////////////////////////////////////////////////////////////////
+	$_SESSION['dev__timer'] 						= 	dev__timer(basename(__FILE__, '.php'), 0);
+	
+	
+	
+	include($GLOBALS['Site_Dir'].'Includes/jsoncommands.php');
+}
+
+// Developer Mode Timer that echo's all the scripts and functions along with how long it took to process that step;
+$_SESSION['dev__timer'] = dev__timer($_SESSION['dev__timer']);
+
+?>
